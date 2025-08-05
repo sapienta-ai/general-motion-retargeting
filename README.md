@@ -200,6 +200,44 @@ If you want to record video, add `--record_video` and `--video_path <your_video_
 | TBD | TBD |
 
 
+# Booster Gym Integration
+
+This repository now includes **Booster Gym**, a reinforcement learning framework for training locomotion and imitation policies on the Booster T1 humanoid robot.
+
+## Features
+- **Complete Training Pipeline**: Train, test, and deploy policies for the Booster T1
+- **4-DOF Arm Support**: Compatible with the new `booster_t1_4dof` retargeting configuration
+- **Sim-to-Real Transfer**: Deploy trained policies directly to real hardware
+- **Motion Imitation**: Use retargeted mocap data (pkl files) to train imitation policies
+
+## Quick Start with Booster Gym
+```bash
+# Navigate to booster_gym directory
+cd booster_gym
+
+# Train a locomotion policy
+python train.py --task=T1
+
+# Test the policy in simulation  
+python play.py --task=T1 --checkpoint=-1
+
+# Export for deployment
+python export_model.py --task=T1 --checkpoint=-1
+```
+
+## Training Motion Imitation Policies
+1. **Generate motion data** using the 4-DOF retargeting:
+   ```bash
+   python scripts/bvh_to_robot_dataset.py \
+     --src_folder lafan1/ \
+     --tgt_folder motion_data/t1_4dof/ \
+     --robot booster_t1_4dof
+   ```
+
+2. **Extend booster_gym** with motion tracking rewards (see our analysis above)
+
+3. **Train imitation policies** using the generated pkl files
+
 # Citation
 
 If you find our code useful, please consider citing our papers:
