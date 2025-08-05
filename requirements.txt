@@ -1,0 +1,22 @@
+# Core scientific computing stack - compatible versions
+numpy>=2.0
+scipy>=1.12
+
+# Motion retargeting and robotics
+loop_rate_limiters
+mink
+mujoco
+qpsolvers[proxqp]
+
+# Utilities
+rich
+tqdm
+opencv-python
+natsort
+psutil
+protobuf
+redis[hiredis]
+imageio[ffmpeg]
+
+# SMPL-X for human body modeling
+smplx @ git+https://github.com/vchoutas/smplx 

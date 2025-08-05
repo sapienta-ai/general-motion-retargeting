@@ -61,6 +61,9 @@ https://github.com/user-attachments/assets/23566fa5-6335-46b9-957b-4b26aed11b9e
 
 The code is tested on Ubuntu 22.04/20.04.
 
+**Important**: This project requires NumPy 2.0+ and SciPy 1.12+ for compatibility with JAX. If you encounter NumPy/JAX compatibility errors, the installation commands below will resolve them.
+
+## Method 1: Direct installation (Recommended)
 ```bash
 # create conda env
 conda create -n gmr python=3.10 -y
@@ -73,6 +76,30 @@ pip install -e .
 
 # to resolve some possible rendering issues
 conda install -c conda-forge libstdcxx-ng -y
+```
+
+## Method 2: Install from requirements.txt (Alternative)
+```bash
+# create conda env
+conda create -n gmr python=3.10 -y
+conda activate gmr
+
+# install dependencies first
+pip install -r requirements.txt
+
+# then install GMR
+pip install -e .
+
+# NOTE: after install SMPLX, change `ext` in `smplx/body_models.py` from `npz` to `pkl` if you are using SMPL-X pkl files.
+
+# to resolve some possible rendering issues
+conda install -c conda-forge libstdcxx-ng -y
+```
+
+## Troubleshooting
+If you encounter NumPy/JAX compatibility errors like `AttributeError: module 'numpy' has no attribute 'dtypes'`, run:
+```bash
+pip install --upgrade numpy>=2.0 scipy>=1.12
 ```
 
 
