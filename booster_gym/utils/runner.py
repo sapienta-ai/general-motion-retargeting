@@ -46,7 +46,7 @@ class Runner:
         parser.add_argument("--task", required=True, type=str, help="Name of the task to run.")
         parser.add_argument("--checkpoint", type=str, help="Path of the model checkpoint to load. Overrides config file if provided.")
         parser.add_argument("--num_envs", type=int, help="Number of environments to create. Overrides config file if provided.")
-        parser.add_argument("--headless", type=bool, help="Run headless without creating a viewer window. Overrides config file if provided.")
+        parser.add_argument("--headless", type=lambda x: (str(x).lower() == 'true'), help="Run headless without creating a viewer window. Overrides config file if provided.")
         parser.add_argument("--sim_device", type=str, help="Device for physics simulation. Overrides config file if provided.")
         parser.add_argument("--rl_device", type=str, help="Device for the RL algorithm. Overrides config file if provided.")
         parser.add_argument("--seed", type=int, help="Random seed. Overrides config file if provided.")

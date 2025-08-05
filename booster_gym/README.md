@@ -7,6 +7,8 @@ Booster Gym is a reinforcement learning (RL) framework designed for humanoid rob
 ## Features
 
 - **Complete Training-to-Deployment Pipeline**: Full support for training, evaluating, and deploying policies in simulation and on real robots.
+- **Motion Imitation System**: Train robots to imitate human motion from mocap data (BVH, SMPL-X, PKL formats).
+- **21-DOF Full-Body Control**: Arms (8 DOF) + Legs (12 DOF) + Waist (1 DOF) with curriculum learning support.
 - **Sim-to-Real Transfer**: Including effective settings and techniques to minimize the sim-to-real gap and improve policy generalization.
 - **Customizable Environments and Algorithms**: Easily modify environments and RL algorithms to suit a wide range of tasks.
 - **Out-of-the-Box Booster T1 Support**: Pre-configured for quick setup and deployment on the Booster T1 robot.
@@ -154,3 +156,48 @@ $ python export_model.py --task=T1 --checkpoint=-1
 ```
 
 After exporting the model, follow the steps in [Deploy on Booster Robot](deploy/README.md) to complete the deployment process.
+
+---
+
+## Motion Imitation Training
+
+Booster Gym now supports training policies to imitate human motion from mocap data. This enables the T1 robot to learn complex human-like movements and behaviors.
+
+### Quick Start with Motion Imitation
+
+1. **Generate Motion Data**:
+   ```sh
+   # Convert BVH motion files to T1-compatible format
+   $ python scripts/bvh_to_robot_dataset.py --src_folder lafan1/ --tgt_folder motion_data/t1_4dof/ --robot booster_t1_4dof
+   ```
+
+2. **Train Imitation Policy**:
+   ```sh
+   # Train robot to imitate human motion (headless for performance)
+   $ python train_imitation.py --task=T1Imitation
+   
+   # For debugging with visualization
+   $ python train_imitation.py --task=T1Imitation --headless=False
+   ```
+
+3. **Test and Deploy**:
+   ```sh
+   # Test in simulation
+   $ python play.py --task=T1Imitation --checkpoint=-1
+   
+   # Export for deployment
+   $ python export_model.py --task=T1Imitation --checkpoint=-1
+   ```
+
+### Key Features
+- **Full-Body Control**: 21-DOF motion data mapped to 23-DOF robot (head padded automatically)
+- **Multiple Motion Formats**: BVH, SMPL-X, and PKL support
+- **Transfer Learning**: Initialize from pretrained locomotion policies
+- **Curriculum Learning**: Cooperative arm-leg training (no parameter freezing)
+- **Targeted Training**: Focus on specific motion segments (e.g., 42s-56s from 2-minute sequences)
+- **Optimized Performance**: Headless training with 3x speed improvement
+
+For comprehensive documentation, see:
+- **[Motion Imitation Guide](MOTION_IMITATION.md)** - Complete system documentation
+- **[Isaac Gym Setup](../ISAAC_GYM_SETUP.md)** - Installation instructions
+- **[PKL Conversion Guide](CONVERT_PKL_README.md)** - Cross-environment compatibility

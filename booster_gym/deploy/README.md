@@ -25,11 +25,19 @@ Follow these steps to set up your environment:
 2. Run the deployment script:
 
     ```sh
+    # For locomotion policies (12 DOF)
     $ python deploy.py --config=T1.yaml
+    
+    # For motion imitation policies (21 DOF) - requires custom config
+    $ python deploy.py --config=T1_imitation.yaml
     ```
 
     - `--config`: Name of the configuration file, located in the `configs/` folder.
+      - `T1.yaml`: For locomotion policies (12 DOF leg control)
+      - `T1_imitation.yaml`: For motion imitation policies (21 DOF full-body control)
     - `--net`: Network interface for SDK communication. Default is `127.0.0.1`.
+
+    **Note**: Motion imitation policies require a custom configuration with `num_actions: 21` instead of the default `num_actions: 12`. Create `T1_imitation.yaml` based on `T1.yaml` with the appropriate parameters for full-body control.
 
 3. Exit Safely:
 

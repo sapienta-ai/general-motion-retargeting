@@ -72,6 +72,17 @@ class Recorder:
         print("Saving model to {}".format(path))
         torch.save(model_dict, path)
 
+    def step(self):
+        """Step method for training loop compatibility."""
+        pass  # No-op for this recorder implementation
+    
+    def close(self):
+        """Close method for cleanup."""
+        if hasattr(self, 'writer'):
+            self.writer.close()
+        if self.cfg["runner"]["use_wandb"]:
+            wandb.finish()
+    
     def _mean(self, data):
         if len(data) == 0:
             return 0.0

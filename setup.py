@@ -15,8 +15,8 @@ setup(
     "loop_rate_limiters",
     "mink",
     "mujoco",
-    "numpy>=2.0",
-    "scipy>=1.12",
+    "numpy>=1.19,<2.0",
+    "scipy>=1.5,<2.0",
     "qpsolvers[proxqp]",
     "rich",
     "tqdm",
@@ -28,5 +28,5 @@ setup(
     "redis[hiredis]",
     "imageio[ffmpeg]",
   ],
-  python_requires='>=3.10',
+  python_requires='>=3.8',
 )
