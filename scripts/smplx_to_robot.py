@@ -25,8 +25,8 @@ if __name__ == "__main__":
     
     parser.add_argument(
         "--robot",
-        choices=["unitree_g1", "booster_t1", "stanford_toddy", "fourier_n1", "engineai_pm01"],
-        default="booster_t1",
+        choices=["unitree_g1", "booster_t1", "stanford_toddy", "fourier_n1", "engineai_pm01", "kuavo_s45", "hightorque_hi"],
+        default="unitree_g1",
     )
     
     parser.add_argument(
@@ -47,6 +47,13 @@ if __name__ == "__main__":
         default=False,
         action="store_true",
         help="Record the video.",
+    )
+
+    parser.add_argument(
+        "--rate_limit",
+        default=False,
+        action="store_true",
+        help="Limit the rate of the retargeted robot motion to keep the same as the human motion.",
     )
 
     args = parser.parse_args()
@@ -93,6 +100,7 @@ if __name__ == "__main__":
     
     # Start the viewer
     i = 0
+
     while True:
         if args.loop:
             i = (i + 1) % len(smplx_data_frames)
@@ -115,7 +123,7 @@ if __name__ == "__main__":
 
         # retarget
         qpos = retarget.retarget(smplx_data)
-        
+
         # visualize
         robot_motion_viewer.step(
             root_pos=qpos[:3],
@@ -125,8 +133,9 @@ if __name__ == "__main__":
             # human_motion_data=smplx_data,
             human_pos_offset=np.array([0.0, 0.0, 0.0]),
             show_human_body_name=False,
+            rate_limit=args.rate_limit,
         )
-        
+
         if args.save_path is not None:
             qpos_list.append(qpos)
             
